@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -nostartfiles -Map=SoDDRM.map -O0 --gc-sections -LG:\CoIDE\configuration\ProgramData\SoDDRM -TG:\CoIDE\configuration\ProgramData\SoDDRM/link.ld -g">
+      <target file="SoDDRM.elf" lastModified="16978f9c860">
+         <source file="..\obj\stm32f10x_tim.o" lastModified="16978f9c40c"/>
+         <source file="..\obj\system_stm32f10x.o" lastModified="16978f9c446"/>
+         <source file="..\obj\startup_stm32f10x_md.o" lastModified="16978f9c46f"/>
+         <source file="..\obj\stm32f10x_gpio.o" lastModified="16978f9c4bb"/>
+         <source file="..\obj\main.o" lastModified="16978f9c513"/>
+         <source file="..\obj\stm32f10x_rcc.o" lastModified="16978f9c55f"/>
+         <source file="..\obj\stm32f10x_usart.o" lastModified="16978f9c5b1"/>
+         <source file="..\obj\stm32f10x_spi.o" lastModified="16978f9c5f8"/>
+         <source file="..\obj\stm32f10x_i2c.o" lastModified="16978f9c64e"/>
+         <source file="..\obj\i2c_lcd.o" lastModified="16978f9c68e"/>
+      </target>
+   </processor>
+</history>
