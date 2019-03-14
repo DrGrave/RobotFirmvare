@@ -7,6 +7,7 @@
 void gpioInit(void);
 void i2cInit(void);
 void delay(uint32_t t);
+void checkWay(void);
 
 const uint8_t mes[] = "STM32F4 + I2C + LCD";
 SPI_InitTypeDef spi;
@@ -20,10 +21,10 @@ int main(void) {
 	i2cInit();
 	lcd_Init();
 
-	__enable_irq();
-	NVIC_EnableIRQ(SPI1_IRQn);
+//	__enable_irq();
+//	NVIC_EnableIRQ(SPI1_IRQn);
 	//Тут мы разрешаем прерывание по приему
-	SPI_I2S_ITConfig(SPI1, SPI_I2S_IT_RXNE, ENABLE);
+//	SPI_I2S_ITConfig(SPI1, SPI_I2S_IT_RXNE, ENABLE);
 
 	lcd_PrintC(mes);
 
@@ -36,33 +37,33 @@ int main(void) {
 	lcd_PrintC("Next string ");
 	//uint16_t data = 0;
 	while (1) {
-//		GPIO_ResetBits(GPIOA,GPIO_Pin_4); //Подаем сигнал CS слейву
+
 		SPI_I2S_SendData(SPI1, 0x93); //Передаем байт 0x93 через SPI1
 		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET)
 			//Передатчик занят?
 			;// значит ничего не делаем
 		lcd_Goto(1, 0);
 		lcd_PrintC("                                      ");
-		delay(10000000);
+		delay(100000);
 		lcd_Goto(2, 0);
 		lcd_PrintC("                                      ");
-		delay(10000000);
-
-		lcd_Goto(2, 0);
-		lcd_PrintC("Bit sent");
-		delay(10000000);
-		switch (data) {
-		case 0x93:
-			lcd_Goto(2, 0);
-			lcd_PrintC("GOOD");
-			delay(10000000);
-			break;
-		default:
-			lcd_Goto(2, 0);
-			lcd_PrintC("bad bits");
-			delay(10000000);
-			break;
-		}
+		delay(100000);
+		checkWay();
+//		lcd_Goto(2, 0);
+//		lcd_PrintC("Bit sent");
+//		delay(10000000);
+//		switch (data) {
+//		case 0x93:
+//			lcd_Goto(2, 0);
+//			lcd_PrintC("GOOD");
+//			delay(10000000);
+//			break;
+//		default:
+//			lcd_Goto(2, 0);
+//			lcd_PrintC("bad bits");
+//			delay(10000000);
+//			break;
+//		}
 
 		needUpdate = 0;
 	}
@@ -75,13 +76,47 @@ void delay(uint32_t t) {
 }
 
 void Delay_ms(uint32_t ms) {
-	volatile uint32_t nCount;
-	RCC_ClocksTypeDef RCC_Clocks;
-	RCC_GetClocksFreq(&RCC_Clocks);
+	static uint32_t j=0, i=0;
+	for (i = 0; i < ms; i++){
+		for (j = 0; j < 1; j++){
 
-	nCount = (RCC_Clocks.HCLK_Frequency / 10000) * ms;
-	for (; nCount != 0; nCount--)
-		;
+		}
+	}
+}
+
+void Delay_1ms(uint32_t t){
+	uint32_t i=0;
+	for (i = 0; i< t; i++){
+
+	}
+}
+
+void checkWay(void){
+	uint32_t time, timeout, time_copy;
+	float Distance = 0;
+	GPIOB->BRR = GPIO_Pin_8;
+	Delay_ms(1);
+	GPIOB->BSRR = GPIO_Pin_8;
+	Delay_ms(5);
+	GPIOB->BRR = GPIO_Pin_8;
+	while ((GPIOB->IDR & GPIO_Pin_9) == 0x00){
+
+	}
+	time = 0;
+	while ((GPIOB->IDR & GPIO_Pin_9) != 0x00){
+		time++;
+		Delay_1ms(1);
+	}
+
+	time_copy = time;
+	Distance = (float)time_copy*0.0171821;
+	lcd_Goto(2, 0);
+	char buffer[2];
+	buffer[0] = '0' + Distance;
+	buffer[1] = '\0';
+	lcd_PrintC(buffer);
+	delay(10000);
+
 }
 
 void gpioInit(void) {
@@ -96,6 +131,16 @@ void gpioInit(void) {
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 	SPI_StructInit(&spi);
