@@ -40,11 +40,11 @@ int main(void) {
 			 //Читаем принятые данные
 			if (SPI_I2S_ReceiveData(SPI1)==0x93) { //Пришли правильные данные ?
 				lcd_Goto(2, 0);
-				lcd_PrintC(SPI_I2S_ReceiveData(SPI1));
+				lcd_PrintC("GOOD");
 				delay(10000000);
 			} else {
 				lcd_Goto(2, 0);
-				lcd_PrintC(SPI_I2S_ReceiveData(SPI1)+ "wrong");
+				lcd_PrintC("wrong");
 				delay(10000000);
 			}
 		} else {
@@ -104,7 +104,6 @@ void gpioInit(void) {
 	port.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
 	port.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &port);
-//	NVIC_EnableIRQ(SPI1_IRQn);
 	SPI_Cmd(SPI1, ENABLE);
 	I2C_Cmd(I2C1, ENABLE);
 	    /* Apply I2C configuration after enabling it */
@@ -128,16 +127,4 @@ void i2cInit(void) {
 	I2C_Cmd(I2C1, ENABLE);
 }
 
-//void SPI1_IRQHandler (void) {
-//
-//	if (SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_RXNE)==SET) {
-//		// Прерывание вызвано приемом байта ?
-//		uint8_t data = SPI1->DR; //Читаем то что пришло
-//		SPI1->DR = data; //И отправляем обратно то что приняли
-//		lcd_Goto(1, 0);
-//		lcd_PrintC("Bit get");
-//		lcd_Goto(2, 0);
-//		lcd_PrintC(data);
-//	}
-//}
 

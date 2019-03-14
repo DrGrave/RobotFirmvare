@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
-   <processor signature="arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -nostartfiles -Map=SoDDRM.map -O0 --gc-sections -LG:\CoIDE\configuration\ProgramData\SoDDRM -TG:\CoIDE\configuration\ProgramData\SoDDRM/link.ld -g">
-      <target file="SoDDRM.elf" lastModified="169799f7c67">
-         <source file="..\obj\stm32f10x_tim.o" lastModified="169799f777e"/>
-         <source file="..\obj\system_stm32f10x.o" lastModified="169799f77b7"/>
-         <source file="..\obj\startup_stm32f10x_md.o" lastModified="169799f77e1"/>
-         <source file="..\obj\stm32f10x_gpio.o" lastModified="169799f7829"/>
-         <source file="..\obj\main.o" lastModified="169799f78f0"/>
-         <source file="..\obj\stm32f10x_rcc.o" lastModified="169799f794f"/>
-         <source file="..\obj\stm32f10x_usart.o" lastModified="169799f79ab"/>
-         <source file="..\obj\stm32f10x_spi.o" lastModified="169799f7a05"/>
-         <source file="..\obj\stm32f10x_i2c.o" lastModified="169799f7a5c"/>
-         <source file="..\obj\i2c_lcd.o" lastModified="169799f7a96"/>
+   <processor signature="arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -nostartfiles -Map=SoDDRM.map -O0 --gc-sections -LC:\CooCox\CoIDE\configuration\ProgramData\SoDDRM -TC:\CooCox\CoIDE\configuration\ProgramData\SoDDRM/link.ld -g">
+      <target file="SoDDRM.elf" lastModified="1697abe17fa">
+         <source file="..\obj\stm32f10x_tim.o" lastModified="1697abe07fc"/>
+         <source file="..\obj\system_stm32f10x.o" lastModified="1697abe08f6"/>
+         <source file="..\obj\startup_stm32f10x_md.o" lastModified="1697abe09e1"/>
+         <source file="..\obj\stm32f10x_gpio.o" lastModified="1697abe0b67"/>
+         <source file="..\obj\main.o" lastModified="1697abe0d6b"/>
+         <source file="..\obj\stm32f10x_rcc.o" lastModified="1697abe0ec3"/>
+         <source file="..\obj\stm32f10x_usart.o" lastModified="1697abe1059"/>
+         <source file="..\obj\stm32f10x_spi.o" lastModified="1697abe11ef"/>
+         <source file="..\obj\stm32f10x_i2c.o" lastModified="1697abe1357"/>
+         <source file="..\obj\i2c_lcd.o" lastModified="1697abe1441"/>
       </target>
    </processor>
 </history>
