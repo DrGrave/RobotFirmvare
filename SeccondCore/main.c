@@ -30,6 +30,7 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_i2c.h"
+#include "stm32f10x_spi.h"
 
 
 
@@ -42,19 +43,14 @@ const uint8_t mes[] = "STM32F4 + I2C + LCD";
 int main(void) {
 
 	gpioInit();
-	i2cInit();
-	lcd_Init();
+//	i2cInit();
+//	lcd_Init();
 
-	lcd_PrintC(mes);
+//	lcd_PrintC(mes);
+//
+//	lcd_Goto(2, 0);
+//	lcd_PrintC("LCD4x20 with PCF8574");
 
-	lcd_Goto(2, 0);
-	lcd_PrintC("LCD4x20 with PCF8574");
-
-	lcd_Goto(3, 3);
-	lcd_PrintC("\"Hello world!\"");
-
-	lcd_Goto(4, 10);
-	lcd_PrintC("how.net.ua");
 
 
 
@@ -66,9 +62,19 @@ void delay(uint32_t t) {
 	for (; i < t; i++);
 }
 
+void SPI1_IRQHandler (void) {
+	if (SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_RXNE)==SET) {
+	// Прерывание вызвано приемом байта ?
+		uint8_t data = SPI1->DR; //Читаем то что пришло
+		SPI1->DR = data; //И отправляем обратно то что приняли
+	}
+}
+
 void gpioInit(void) {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	I2C_InitTypeDef  I2C_InitStructure;
+	SPI_InitTypeDef SPI_InitStructure;
+
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
@@ -76,6 +82,29 @@ void gpioInit(void) {
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_6 ;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	//Заполняем структуру с параметрами SPI модуля
+	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex; //полный дуплекс
+	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b; // передаем по 8 бит
+	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low; // Полярность и
+	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge; // фаза тактового сигнала
+	SPI_InitStructure.SPI_NSS = SPI_NSS_Hard; // Управлять состоянием сигнала NSS аппаратно
+	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32; // Предделитель SCK
+	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB; // Первым отправляется старший бит
+	SPI_InitStructure.SPI_Mode = SPI_Mode_Slave; // Режим - слейв
+	SPI_Init(SPI1, &SPI_InitStructure); //Настраиваем SPI1
+	SPI_I2S_ITConfig(SPI1,SPI_I2S_IT_RXNE,ENABLE); //Включаем прерывание по приему байта
+	SPI_Cmd(SPI1, ENABLE); // Включаем модуль SPI1....
+	NVIC_EnableIRQ(SPI1_IRQn);
 
 	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
 	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;

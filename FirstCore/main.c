@@ -1,35 +1,8 @@
-//#include "stm32f10x.h"
-//#include "stm32f10x_gpio.h"
-//#include "stm32f10x_rcc.h"
-//
-//
-//int main(void)
-//{
-//  int i;
-//  /* Initialize Leds mounted on STM32 board */
-//  GPIO_InitTypeDef  GPIO_InitStructure;
-//  /* Initialize LED which connected to PC13, Enable the Clock*/
-//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-//  /* Configure the GPIO_LED pin */
-//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_O;
-//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//  GPIO_Init(GPIOA, &GPIO_InitStructure);
-//
-//  while (1)
-//  {
-//    /* Toggle LED which connected to PC13*/
-//    GPIOC->ODR ^= GPIO_Pin_13;
-//
-//    /* delay */
-//    for(i=0;i<0x100000;i++);
-//  }
-//}
-
 #include "i2c_lcd.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_i2c.h"
+#include "stm32f10x_spi.h"
 
 
 
@@ -38,6 +11,8 @@ void i2cInit(void);
 void delay(uint32_t t);
 
 const uint8_t mes[] = "STM32F4 + I2C + LCD";
+SPI_InitTypeDef spi;
+GPIO_InitTypeDef port;
 
 int main(void) {
 
@@ -48,17 +23,36 @@ int main(void) {
 	lcd_PrintC(mes);
 
 	lcd_Goto(2, 0);
-	lcd_PrintC("LCD4x20 with PCF8574");
+	lcd_PrintC("LCD4x20 with ");
 
-	lcd_Goto(3, 3);
-	lcd_PrintC("\"Hello world!\"");
+	delay(10000000);
 
-	lcd_Goto(4, 10);
-	lcd_PrintC("how.net.ua");
+	lcd_Goto(2,0);
+	lcd_PrintC("Next string ");
+	//uint16_t data = 0;
+	while(1){
+//		GPIO_ResetBits(GPIOA,GPIO_Pin_4); //Подаем сигнал CS слейву
+		SPI_I2S_SendData(SPI1, 0x93); //Передаем байт 0x93 через SPI1
+		while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET) //Передатчик занят?
+		; // значит ничего не делаем
 
-
-
-    while(1) {}
+		if (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == SET) { //Если данные пришли
+			 //Читаем принятые данные
+			if (SPI_I2S_ReceiveData(SPI1)==0x93) { //Пришли правильные данные ?
+				lcd_Goto(2, 0);
+				lcd_PrintC(SPI_I2S_ReceiveData(SPI1));
+				delay(10000000);
+			} else {
+				lcd_Goto(2, 0);
+				lcd_PrintC(SPI_I2S_ReceiveData(SPI1)+ "wrong");
+				delay(10000000);
+			}
+		} else {
+			lcd_Goto(2, 0);
+			lcd_PrintC("can't get");
+			delay(10000000);
+		}
+	}
 }
 
 void delay(uint32_t t) {
@@ -66,24 +60,52 @@ void delay(uint32_t t) {
 	for (; i < t; i++);
 }
 
+void Delay_ms(uint32_t ms)
+{
+        volatile uint32_t nCount;
+        RCC_ClocksTypeDef RCC_Clocks;
+        RCC_GetClocksFreq (&RCC_Clocks);
+
+        nCount=(RCC_Clocks.HCLK_Frequency/10000)*ms;
+        for (; nCount!=0; nCount--);
+}
+
+
 void gpioInit(void) {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	I2C_InitTypeDef  I2C_InitStructure;
+
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 
 	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_6 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
-	I2C_InitStructure.I2C_OwnAddress1 = 0x38;
-	I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
-	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-	I2C_InitStructure.I2C_ClockSpeed = 100000;
 
+
+	SPI_StructInit(&spi);
+	spi.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+	spi.SPI_Mode = SPI_Mode_Master;
+	spi.SPI_DataSize = SPI_DataSize_8b;
+	spi.SPI_CPOL = SPI_CPOL_Low;
+	spi.SPI_CPHA = SPI_CPHA_2Edge;
+	spi.SPI_NSS = SPI_NSS_Soft;
+	spi.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+	spi.SPI_FirstBit = SPI_FirstBit_MSB;
+	spi.SPI_CRCPolynomial = 7;
+	SPI_Init(SPI1, &spi);
+
+	GPIO_StructInit(&port);
+	port.GPIO_Mode = GPIO_Mode_AF_PP;
+	port.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
+	port.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA, &port);
+//	NVIC_EnableIRQ(SPI1_IRQn);
+	SPI_Cmd(SPI1, ENABLE);
 	I2C_Cmd(I2C1, ENABLE);
 	    /* Apply I2C configuration after enabling it */
 	I2C_Init(I2C1, &I2C_InitStructure);
@@ -103,7 +125,19 @@ void i2cInit(void) {
 	i2c.I2C_Ack = I2C_Ack_Enable;
 	i2c.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 	I2C_Init(I2C1, &i2c);
-
 	I2C_Cmd(I2C1, ENABLE);
 }
+
+//void SPI1_IRQHandler (void) {
+//
+//	if (SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_RXNE)==SET) {
+//		// Прерывание вызвано приемом байта ?
+//		uint8_t data = SPI1->DR; //Читаем то что пришло
+//		SPI1->DR = data; //И отправляем обратно то что приняли
+//		lcd_Goto(1, 0);
+//		lcd_PrintC("Bit get");
+//		lcd_Goto(2, 0);
+//		lcd_PrintC(data);
+//	}
+//}
 
