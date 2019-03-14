@@ -1,34 +1,34 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
    <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O0 -c -DSTM32F103C8 -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -I..\..\..\..\..\Users\Vadim\Documents -I..\..\..\..\..\Users\Vadim\Documents\GitHub\RobotFirmvare\FirstCore\cmsis -I..\..\..\..\..\Users\Vadim\Documents\GitHub\RobotFirmvare\FirstCore\cmsis_boot -I..\..\..\..\..\Users\Vadim\Documents\GitHub\RobotFirmvare\FirstCore\stm_lib\inc -I..\..\..\..\..\Users\Vadim\Documents\GitHub\RobotFirmvare\FirstCore -I..\..\..\..\..\Users\Vadim -I..\..\..\..\..\Users\Vadim\Documents\GitHub\RobotFirmvare\FirstCore\stm_lib -I..\..\..\..\..\Users\Vadim\Documents\GitHub\RobotFirmvare -I..\..\..\..\..\Users">
-      <target file="stm32f10x_tim.o" lastModified="1697abe07fc">
+      <target file="stm32f10x_tim.o" lastModified="1697b123b47">
          <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="1697ab50a0d"/>
       </target>
-      <target file="stm32f10x_i2c.o" lastModified="1697abe1357">
+      <target file="stm32f10x_i2c.o" lastModified="1697b1247bb">
          <source file="..\..\..\stm_lib\src\stm32f10x_i2c.c" lastModified="1697ab509fd"/>
       </target>
-      <target file="system_stm32f10x.o" lastModified="1697abe08f6">
+      <target file="system_stm32f10x.o" lastModified="1697b123c22">
          <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="1697ab509de"/>
       </target>
-      <target file="stm32f10x_spi.o" lastModified="1697abe11ef">
+      <target file="stm32f10x_spi.o" lastModified="1697b124653">
          <source file="..\..\..\stm_lib\src\stm32f10x_spi.c" lastModified="1697ab50a0d"/>
       </target>
-      <target file="main.o" lastModified="1697abe0d6b">
-         <source file="..\..\..\main.c" lastModified="1697abe0155"/>
+      <target file="main.o" lastModified="1697b124048">
+         <source file="..\..\..\main.c" lastModified="1697b12353c"/>
       </target>
-      <target file="stm32f10x_gpio.o" lastModified="1697abe0b67">
+      <target file="stm32f10x_gpio.o" lastModified="1697b123e06">
          <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="1697ab509fd"/>
       </target>
-      <target file="stm32f10x_usart.o" lastModified="1697abe1059">
+      <target file="stm32f10x_usart.o" lastModified="1697b124450">
          <source file="..\..\..\stm_lib\src\stm32f10x_usart.c" lastModified="1697ab50a0d"/>
       </target>
-      <target file="stm32f10x_rcc.o" lastModified="1697abe0ec3">
+      <target file="stm32f10x_rcc.o" lastModified="1697b12424c">
          <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="1697ab509fd"/>
       </target>
-      <target file="startup_stm32f10x_md.o" lastModified="1697abe09e1">
+      <target file="startup_stm32f10x_md.o" lastModified="1697b123cdd">
          <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md.c" lastModified="1697ab509ce"/>
       </target>
-      <target file="i2c_lcd.o" lastModified="1697abe1441">
+      <target file="i2c_lcd.o" lastModified="1697b1248a5">
          <source file="..\..\..\stm_lib\src\i2c_lcd.c" lastModified="1697abad125"/>
       </target>
    </processor>
