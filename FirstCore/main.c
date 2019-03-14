@@ -7,7 +7,7 @@
 void gpioInit(void);
 void i2cInit(void);
 void delay(uint32_t t);
-void checkWay(void);
+void clearLCD(void);
 
 const uint8_t mes[] = "STM32F4 + I2C + LCD";
 SPI_InitTypeDef spi;
@@ -21,52 +21,59 @@ int main(void) {
 	i2cInit();
 	lcd_Init();
 
-//	__enable_irq();
-//	NVIC_EnableIRQ(SPI1_IRQn);
-	//Тут мы разрешаем прерывание по приему
-//	SPI_I2S_ITConfig(SPI1, SPI_I2S_IT_RXNE, ENABLE);
-
-	lcd_PrintC(mes);
+	__enable_irq();
+	NVIC_EnableIRQ(SPI1_IRQn);
+	SPI_I2S_ITConfig(SPI1, SPI_I2S_IT_RXNE, ENABLE);
 
 	lcd_Goto(2, 0);
-	lcd_PrintC("LCD4x20 with ");
-
+	lcd_PrintC("Starting ");
+	delay(10000000);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_4);
+	SPI_I2S_SendData(SPI1, 0x93);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET)
+		;
+	lcd_Goto(1, 0);
+	lcd_PrintC("Bit sent" + (int) 0x93);
 	delay(10000000);
 
-	lcd_Goto(2, 0);
-	lcd_PrintC("Next string ");
 	//uint16_t data = 0;
 	while (1) {
+		clearLCD();
+		GPIO_ResetBits(GPIOA, GPIO_Pin_4);
 
-		SPI_I2S_SendData(SPI1, 0x93); //Передаем байт 0x93 через SPI1
-		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET)
-			//Передатчик занят?
-			;// значит ничего не делаем
-		lcd_Goto(1, 0);
-		lcd_PrintC("                                      ");
-		delay(100000);
-		lcd_Goto(2, 0);
-		lcd_PrintC("                                      ");
-		delay(100000);
-		checkWay();
-//		lcd_Goto(2, 0);
-//		lcd_PrintC("Bit sent");
-//		delay(10000000);
-//		switch (data) {
-//		case 0x93:
-//			lcd_Goto(2, 0);
-//			lcd_PrintC("GOOD");
-//			delay(10000000);
-//			break;
-//		default:
-//			lcd_Goto(2, 0);
-//			lcd_PrintC("bad bits");
-//			delay(10000000);
-//			break;
-//		}
+		switch (data) {
+		case 0x93:
+			lcd_Goto(2, 0);
+			lcd_PrintC("GOOD 0x93");
+			delay(1000000);
+			SPI_I2S_SendData(SPI1, 0x94);
+			while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET)
+				;
+			break;
+		case 0x94:
+			lcd_Goto(2, 0);
+			lcd_PrintC("GOOD 0x94");
+			delay(1000000);
+			SPI_I2S_SendData(SPI1, 0x93);
+			while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET)
+				;
+			break;
+		default:
+			lcd_Goto(2, 0);
+			lcd_PrintC("bad bits" + (int) data);
+			delay(1000000);
+			break;
+		}
 
 		needUpdate = 0;
 	}
+}
+
+void clearLCD() {
+	lcd_Goto(1, 0);
+	lcd_PrintC("                                      ");
+	lcd_Goto(2, 0);
+	lcd_PrintC("                                      ");
 }
 
 void delay(uint32_t t) {
@@ -76,47 +83,13 @@ void delay(uint32_t t) {
 }
 
 void Delay_ms(uint32_t ms) {
-	static uint32_t j=0, i=0;
-	for (i = 0; i < ms; i++){
-		for (j = 0; j < 1; j++){
+	volatile uint32_t nCount;
+	RCC_ClocksTypeDef RCC_Clocks;
+	RCC_GetClocksFreq(&RCC_Clocks);
 
-		}
-	}
-}
-
-void Delay_1ms(uint32_t t){
-	uint32_t i=0;
-	for (i = 0; i< t; i++){
-
-	}
-}
-
-void checkWay(void){
-	uint32_t time, timeout, time_copy;
-	float Distance = 0;
-	GPIOB->BRR = GPIO_Pin_8;
-	Delay_ms(1);
-	GPIOB->BSRR = GPIO_Pin_8;
-	Delay_ms(5);
-	GPIOB->BRR = GPIO_Pin_8;
-	while ((GPIOB->IDR & GPIO_Pin_9) == 0x00){
-
-	}
-	time = 0;
-	while ((GPIOB->IDR & GPIO_Pin_9) != 0x00){
-		time++;
-		Delay_1ms(1);
-	}
-
-	time_copy = time;
-	Distance = (float)time_copy*0.0171821;
-	lcd_Goto(2, 0);
-	char buffer[2];
-	buffer[0] = '0' + Distance;
-	buffer[1] = '\0';
-	lcd_PrintC(buffer);
-	delay(10000);
-
+	nCount = (RCC_Clocks.HCLK_Frequency / 10000) * ms;
+	for (; nCount != 0; nCount--)
+		;
 }
 
 void gpioInit(void) {
@@ -131,16 +104,6 @@ void gpioInit(void) {
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 	SPI_StructInit(&spi);
@@ -185,9 +148,13 @@ void i2cInit(void) {
 void SPI1_IRQHandler() {
 	data = SPI_I2S_ReceiveData(SPI1);
 	needUpdate = 1;
-	lcd_Goto(2, 0);
-	lcd_PrintC("GOOD");
-	delay(10000000);
-
+	if (data == 0x93) {
+		lcd_Goto(2, 0);
+		lcd_PrintC("GOOD");
+		delay(10000000);
+	} else {
+		lcd_Goto(2, 0);
+		lcd_PrintC("BAD 94xx");
+		delay(10000000);
+	}
 }
-

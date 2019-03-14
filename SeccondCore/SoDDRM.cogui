@@ -22,7 +22,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/SeccondCore/main.c" title="main.c" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/SeccondCore/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1769" selectionTopPixel="781"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1784" selectionTopPixel="680"/>
 </editor>
 </editors>
 <views>
@@ -35,6 +35,9 @@
 <element path="/SoDDRM/stm_lib/inc"/>
 <element path="/SoDDRM/stm_lib/src"/>
 </expanded>
+<selection>
+<element path="/SoDDRM/main.c"/>
+</selection>
 </viewState>
 </view>
 <view id="org.coocox.component.ui.ComponentView" partName="Components">
@@ -341,6 +344,12 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="i2c_lcd.h" tooltip="SoDDRM/stm_lib/inc/i2c_lcd.h">
 <persistable path="/SoDDRM/stm_lib/inc/i2c_lcd.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="SoDDRM/stm_lib/inc/main.h">
+<persistable path="/SoDDRM/stm_lib/inc/main.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="ScaningDrone/main.c">
+<persistable path="/ScaningDrone/main.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="SoDDRM/stm_lib/inc/main.h">
 <persistable path="/SoDDRM/stm_lib/inc/main.h"/>

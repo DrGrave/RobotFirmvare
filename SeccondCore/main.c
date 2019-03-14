@@ -43,47 +43,39 @@ void initAll() {
 
 /*******************************************************************/
 int main() {
-	__enable_irq();
+	//__enable_irq();
 	initAll();
 	SPI_Cmd(SPI2, ENABLE);
-	NVIC_EnableIRQ(SPI2_IRQn);
+	//NVIC_EnableIRQ(SPI2_IRQn);
 	//“ут мы разрешаем прерывание по приему
-	SPI_I2S_ITConfig(SPI2, SPI_I2S_IT_RXNE, ENABLE);
+	//SPI_I2S_ITConfig(SPI2, SPI_I2S_IT_RXNE, ENABLE);
 	//Ќу вот прин€ли, теперь просто зажигаем диоды
 	GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 	int i;
 
 	while (1) {
+		int i, j;
+		for (i = 0; i < 1000000; i++){
+			for (j = 0; j < 1; ++j) {
 
-		if (needUpdate == 1) {
-
-			switch (data) {
-			case 0x93:
-				GPIOC->ODR ^= GPIO_Pin_13;
-				/* delay */
-				for (i = 0; i < 0x100000; i++)
-					;
-
-				SPI_I2S_SendData(SPI2, data);
-				while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET)
-					;
-
-
-				break;
-
-			default:
-				break;
 			}
-
-			needUpdate = 0;
 		}
+		GPIOC->ODR ^= GPIO_Pin_13;
+		SPI_I2S_SendData(SPI2, 0x93);
+				while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET)
+								;
 	}
 }
 
 /*******************************************************************/
 void SPI2_IRQHandler() {
 	data = SPI_I2S_ReceiveData(SPI2);
-	needUpdate = 1;
+	if (data == 0x93){
+		GPIOC->ODR ^= GPIO_Pin_13;
+		SPI_I2S_SendData(SPI2, 0x93);
+		while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET)
+						;
+	}
 
 }
 
