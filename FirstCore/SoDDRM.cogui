@@ -25,7 +25,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/main.c" title="main.c" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="19" selectionOffset="7531" selectionTopPixel="4514"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1759" selectionTopPixel="806"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="i2c_lcd.h" partName="i2c_lcd.h" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/stm_lib/inc/i2c_lcd.h" title="i2c_lcd.h" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/stm_lib/inc/i2c_lcd.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/stm_lib/inc/i2c_lcd.h"/>
@@ -60,16 +60,6 @@
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
 <viewState/>
 </view>
-<view id="org.coocox.component.ui.Help" partName="Help">
-<viewState/>
-</view>
-<view id="org.coocox.coassistant.view.CoAssistantView" partName="Peripherals">
-<viewState horizontalPosition="0" verticalPosition="0">
-<selection>&#x0A;<element name="EXTI"/>
-</selection>
-<registerValues baseAddress="Base Address: 0x40010400" description="Description:  External interrupt/event controller"/>
-</viewState>
-</view>
 </views>
 <perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="org.coocox.builder.perspective.CoBuilder">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
@@ -103,8 +93,6 @@
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.TerminateAndRelaunch"/>
 <view id="org.coocox.component.ui.ComponentView"/>
 <view id="org.coocox.builder.ui.views.ProjectView"/>
-<view id="org.coocox.component.ui.Help"/>
-<view id="org.coocox.coassistant.view.CoAssistantView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <fastViewBars/>
 <layout>
@@ -123,7 +111,7 @@
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@3b70df" ratio="0.69189763" ratioLeft="649" ratioRight="289" relationship="4" relative="org.eclipse.ui.internal.ViewStack@809804">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@3b70df" ratio="0.7633262" ratioLeft="716" ratioRight="222" relationship="4" relative="org.eclipse.ui.internal.ViewStack@809804">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -133,16 +121,13 @@
 </info>
 <info part="org.coocox.builder.ui.exampleView" ratio="0.21968503" ratioLeft="279" ratioRight="991" relationship="2" relative="org.eclipse.ui.internal.ViewStack@809804"/>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@7c3683" ratio="0.71947527" ratioLeft="713" ratioRight="278" relationship="2" relative="org.coocox.builder.ui.exampleView">
-<folder activePageID="org.coocox.component.ui.Help" appearance="2" expanded="2">
-<page content="org.coocox.component.ui.Help" label="Help"/>
-<page content="org.coocox.coassistant.view.CoAssistantView" label="Peripherals"/>
+<folder appearance="2" expanded="2">
+<page content="org.coocox.component.ui.Help" label="LabelNotFound"/>
+<page content="org.coocox.coassistant.view.CoAssistantView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.coocox.builder.ui.MoreExampleView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.4495708" ratioLeft="419" ratioRight="513" relationship="4" relative="org.coocox.builder.ui.exampleView"/>
@@ -162,9 +147,6 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/SoDDRM/main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/SoDDRM/stm_lib/src/i2c_lcd.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/SoDDRM/stm_lib/inc/i2c_lcd.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/SoDDRM/stm_lib/src/i2c_lcd.c"/>
 <editor factoryID="org.coocox.builder.ui.persistent.PersistentElementFactory" id="org.coocox.welcome.ui.WelcomePage">
 <org.coocox.welcome.ui.WelcomePage/>
 </editor>
@@ -178,54 +160,6 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/SoDDRM/stm_lib/src/i2c_lcd.c"/>
 </editors>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="838" y="58"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1018" y="0"/>
-</item>
-<item historyLabel="i2c_lcd.c" index="1">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="i2c_lcd.h" index="2">
-<position info="not_deleted" x="172" y="0"/>
-</item>
-<item historyLabel="i2c_lcd.c" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="194" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="5860" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="5701" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
 <position/>
 </item>
 <item historyLabel="main.c" index="0">
@@ -234,23 +168,23 @@
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="229" y="0"/>
 </item>
-<item historyLabel="welcome" index="4"/>
+<item historyLabel="welcome" index="1"/>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="49" y="0"/>
 </item>
-<item historyLabel="Configuration" index="5"/>
+<item historyLabel="Configuration" index="2"/>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="148" y="0"/>
 </item>
-<item historyLabel="Repository" index="6"/>
+<item historyLabel="Repository" index="3"/>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="148" y="0"/>
 </item>
-<item historyLabel="Repository" index="6"/>
+<item historyLabel="Repository" index="3"/>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="148" y="0"/>
 </item>
-<item historyLabel="Repository" index="6"/>
+<item historyLabel="Repository" index="3"/>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="148" y="0"/>
 </item>
@@ -281,13 +215,13 @@
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="3192" y="11"/>
 </item>
-<item historyLabel="i2c_lcd.h" index="7">
+<item historyLabel="i2c_lcd.h" index="4">
 <position info="not_deleted" x="172" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="4919" y="0"/>
 </item>
-<item historyLabel="i2c_lcd.h" index="7">
+<item historyLabel="i2c_lcd.h" index="4">
 <position info="not_deleted" x="172" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
@@ -305,17 +239,65 @@
 <item historyLabel="main.c" index="0">
 <position/>
 </item>
-<item historyLabel="i2c_lcd.c" index="8">
+<item historyLabel="i2c_lcd.c" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="i2c_lcd.c" index="8">
+<item historyLabel="i2c_lcd.c" index="5">
 <position info="not_deleted" x="461" y="0"/>
 </item>
-<item historyLabel="i2c_lcd.c" index="8">
+<item historyLabel="i2c_lcd.c" index="5">
 <position info="not_deleted" x="2175" y="3"/>
 </item>
-<item active="true" historyLabel="main.c" index="0">
+<item historyLabel="main.c" index="0">
 <position/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="917" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="638" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="410" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="407" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="791" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="604" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1137" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="248" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="299" y="36"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="3532" y="25"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1389" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1712" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1328" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1328" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1301" y="31"/>
+</item>
+<item active="true" historyLabel="main.c" index="0">
+<position info="not_deleted" x="1375" y="16"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -324,6 +306,9 @@
 <actionBarAdvisor/>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f10x.h" tooltip="SoDDRM/cmsis_boot/stm32f10x.h">
+<persistable path="/SoDDRM/cmsis_boot/stm32f10x.h"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="ScaningDrone/main.c">
 <persistable path="/ScaningDrone/main.c"/>
 </file>
@@ -362,9 +347,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="SoDDRM/stm_lib/inc/main.h">
 <persistable path="/SoDDRM/stm_lib/inc/main.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="ScaningDrone/main.c">
-<persistable path="/ScaningDrone/main.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="SoDDRM/stm_lib/inc/main.h">
 <persistable path="/SoDDRM/stm_lib/inc/main.h"/>
