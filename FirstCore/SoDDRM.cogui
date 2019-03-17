@@ -26,7 +26,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/main.c" title="main.c" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2013" selectionTopPixel="1904"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4269" selectionTopPixel="3218"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="i2c_lcd.h" partName="i2c_lcd.h" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/stm_lib/inc/i2c_lcd.h" title="i2c_lcd.h" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/FirstCore/stm_lib/inc/i2c_lcd.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/stm_lib/inc/i2c_lcd.h"/>

@@ -406,8 +406,6 @@ Discarded input sections
                 0x00000000       0x1c ..\obj\stm32f10x_spi.o
  .text.SPI_I2S_ReceiveData
                 0x00000000       0x18 ..\obj\stm32f10x_spi.o
- .text.SPI_NSSInternalSoftwareConfig
-                0x00000000       0x42 ..\obj\stm32f10x_spi.o
  .text.SPI_SSOutputCmd
                 0x00000000       0x3e ..\obj\stm32f10x_spi.o
  .text.SPI_DataSizeConfig
@@ -422,6 +420,8 @@ Discarded input sections
                 0x00000000       0x18 ..\obj\stm32f10x_spi.o
  .text.SPI_BiDirectionalLineConfig
                 0x00000000       0x40 ..\obj\stm32f10x_spi.o
+ .text.SPI_I2S_GetFlagStatus
+                0x00000000       0x36 ..\obj\stm32f10x_spi.o
  .text.SPI_I2S_ClearFlag
                 0x00000000       0x20 ..\obj\stm32f10x_spi.o
  .text.SPI_I2S_GetITStatus
@@ -519,7 +519,7 @@ Linker script and memory map
 
                 0x20005000                _eram = 0x20005000
 
-.text           0x08000000      0x8a6
+.text           0x08000000      0x8d2
  *(.isr_vector)
  .isr_vector    0x08000000      0x10c ..\obj\startup_stm32f10x_md.o
                 0x08000000                g_pfnVectors
@@ -550,7 +550,6 @@ Linker script and memory map
                 0x080002e0                I2C2_EV_IRQHandler
                 0x080002e0                UsageFault_Handler
                 0x080002e0                ADC1_2_IRQHandler
-                0x080002e0                SPI1_IRQHandler
                 0x080002e0                TAMPER_IRQHandler
                 0x080002e0                DMA1_Channel4_IRQHandler
                 0x080002e0                USART3_IRQHandler
@@ -566,6 +565,7 @@ Linker script and memory map
                 0x080002e0                DMA1_Channel1_IRQHandler
                 0x080002e0                EXTI15_10_IRQHandler
                 0x080002e0                EXTI9_5_IRQHandler
+                0x080002e0                SPI2_IRQHandler
                 0x080002e0                MemManage_Handler
                 0x080002e0                SVC_Handler
                 0x080002e0                DMA1_Channel5_IRQHandler
@@ -602,39 +602,39 @@ Linker script and memory map
  .text.enableIRQSPI
                 0x080004d0       0x20 ..\obj\main.o
                 0x080004d0                enableIRQSPI
- .text.initAll  0x080004f0       0xd8 ..\obj\main.o
+ .text.initAll  0x080004f0       0xf4 ..\obj\main.o
                 0x080004f0                initAll
- .text.main     0x080005c8       0x28 ..\obj\main.o
-                0x080005c8                main
- .text.SPI2_Write
-                0x080005f0       0x30 ..\obj\main.o
-                0x080005f0                SPI2_Write
- .text.SPI2_Read
-                0x08000620       0x34 ..\obj\main.o
-                0x08000620                SPI2_Read
- .text.SPI2_IRQHandler
-                0x08000654       0x38 ..\obj\main.o
-                0x08000654                SPI2_IRQHandler
+ .text.main     0x080005e4       0x1c ..\obj\main.o
+                0x080005e4                main
+ .text.SPI1_Write
+                0x08000600       0x30 ..\obj\main.o
+                0x08000600                SPI1_Write
+ .text.SPI1_Read
+                0x08000630       0x28 ..\obj\main.o
+                0x08000630                SPI1_Read
+ .text.SPI1_IRQHandler
+                0x08000658       0x54 ..\obj\main.o
+                0x08000658                SPI1_IRQHandler
  .text.RCC_APB2PeriphClockCmd
-                0x0800068c       0x3c ..\obj\stm32f10x_rcc.o
-                0x0800068c                RCC_APB2PeriphClockCmd
+                0x080006ac       0x3c ..\obj\stm32f10x_rcc.o
+                0x080006ac                RCC_APB2PeriphClockCmd
  .text.RCC_APB1PeriphClockCmd
-                0x080006c8       0x3c ..\obj\stm32f10x_rcc.o
-                0x080006c8                RCC_APB1PeriphClockCmd
+                0x080006e8       0x3c ..\obj\stm32f10x_rcc.o
+                0x080006e8                RCC_APB1PeriphClockCmd
  .text.SPI_Init
-                0x08000704       0x86 ..\obj\stm32f10x_spi.o
-                0x08000704                SPI_Init
+                0x08000724       0x86 ..\obj\stm32f10x_spi.o
+                0x08000724                SPI_Init
  .text.SPI_StructInit
-                0x0800078a       0x48 ..\obj\stm32f10x_spi.o
-                0x0800078a                SPI_StructInit
- .text.SPI_Cmd  0x080007d2       0x3e ..\obj\stm32f10x_spi.o
-                0x080007d2                SPI_Cmd
+                0x080007aa       0x48 ..\obj\stm32f10x_spi.o
+                0x080007aa                SPI_StructInit
+ .text.SPI_Cmd  0x080007f2       0x3e ..\obj\stm32f10x_spi.o
+                0x080007f2                SPI_Cmd
  .text.SPI_I2S_ITConfig
-                0x08000810       0x60 ..\obj\stm32f10x_spi.o
-                0x08000810                SPI_I2S_ITConfig
- .text.SPI_I2S_GetFlagStatus
-                0x08000870       0x36 ..\obj\stm32f10x_spi.o
-                0x08000870                SPI_I2S_GetFlagStatus
+                0x08000830       0x60 ..\obj\stm32f10x_spi.o
+                0x08000830                SPI_I2S_ITConfig
+ .text.SPI_NSSInternalSoftwareConfig
+                0x08000890       0x42 ..\obj\stm32f10x_spi.o
+                0x08000890                SPI_NSSInternalSoftwareConfig
  *(.init)
  *(.fini)
  *crtbegin.o(.ctors)
@@ -650,35 +650,35 @@ Linker script and memory map
  *(.rodata*)
  *(.eh_fram e*)
 
-.glue_7         0x080008a8        0x0
- .glue_7        0x080008a8        0x0 linker stubs
+.glue_7         0x080008d4        0x0
+ .glue_7        0x080008d4        0x0 linker stubs
 
-.glue_7t        0x080008a8        0x0
- .glue_7t       0x080008a8        0x0 linker stubs
+.glue_7t        0x080008d4        0x0
+ .glue_7t       0x080008d4        0x0 linker stubs
 
-.vfp11_veneer   0x080008a8        0x0
- .vfp11_veneer  0x080008a8        0x0 linker stubs
+.vfp11_veneer   0x080008d4        0x0
+ .vfp11_veneer  0x080008d4        0x0 linker stubs
 
-.v4_bx          0x080008a8        0x0
- .v4_bx         0x080008a8        0x0 linker stubs
+.v4_bx          0x080008d4        0x0
+ .v4_bx         0x080008d4        0x0 linker stubs
 
-.iplt           0x080008a8        0x0
- .iplt          0x080008a8        0x0 ..\obj\system_stm32f10x.o
+.iplt           0x080008d4        0x0
+ .iplt          0x080008d4        0x0 ..\obj\system_stm32f10x.o
 
-.rel.dyn        0x080008a8        0x0
- .rel.iplt      0x080008a8        0x0 ..\obj\system_stm32f10x.o
+.rel.dyn        0x080008d4        0x0
+ .rel.iplt      0x080008d4        0x0 ..\obj\system_stm32f10x.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x080008a8                __exidx_start = .
+                0x080008d4                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x080008a8                __exidx_end = .
-                0x080008a8                __etext = .
-                0x080008a6                _sidata = __etext
+                0x080008d4                __exidx_end = .
+                0x080008d4                __etext = .
+                0x080008d2                _sidata = __etext
 
-.data           0x20000000        0x0 load address 0x080008a6
+.data           0x20000000        0x0 load address 0x080008d2
                 0x20000000                __data_start__ = .
                 0x20000000                _sdata = __data_start__
  *(vtable)
@@ -754,13 +754,13 @@ LOAD c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gc
 END GROUP
 OUTPUT(SoDDRM.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x287f
+.debug_info     0x00000000     0x28f2
  .debug_info    0x00000000      0x4e5 ..\obj\system_stm32f10x.o
  .debug_info    0x000004e5      0x11b ..\obj\startup_stm32f10x_md.o
  .debug_info    0x00000600      0x764 ..\obj\stm32f10x_gpio.o
- .debug_info    0x00000d64      0x862 ..\obj\main.o
- .debug_info    0x000015c6      0x929 ..\obj\stm32f10x_rcc.o
- .debug_info    0x00001eef      0x990 ..\obj\stm32f10x_spi.o
+ .debug_info    0x00000d64      0x8d5 ..\obj\main.o
+ .debug_info    0x00001639      0x929 ..\obj\stm32f10x_rcc.o
+ .debug_info    0x00001f62      0x990 ..\obj\stm32f10x_spi.o
 
 .debug_abbrev   0x00000000      0xae8
  .debug_abbrev  0x00000000      0x190 ..\obj\system_stm32f10x.o
@@ -792,26 +792,26 @@ OUTPUT(SoDDRM.elf elf32-littlearm)
  .debug_ranges  0x00000130      0x108 ..\obj\stm32f10x_rcc.o
  .debug_ranges  0x00000238       0xc0 ..\obj\stm32f10x_spi.o
 
-.debug_line     0x00000000     0x1d33
+.debug_line     0x00000000     0x1d51
  .debug_line    0x00000000      0x34a ..\obj\system_stm32f10x.o
  .debug_line    0x0000034a       0xd3 ..\obj\startup_stm32f10x_md.o
  .debug_line    0x0000041d      0x645 ..\obj\stm32f10x_gpio.o
- .debug_line    0x00000a62      0x45a ..\obj\main.o
- .debug_line    0x00000ebc      0x7e0 ..\obj\stm32f10x_rcc.o
- .debug_line    0x0000169c      0x697 ..\obj\stm32f10x_spi.o
+ .debug_line    0x00000a62      0x478 ..\obj\main.o
+ .debug_line    0x00000eda      0x7e0 ..\obj\stm32f10x_rcc.o
+ .debug_line    0x000016ba      0x697 ..\obj\stm32f10x_spi.o
 
-.debug_str      0x00000000     0x1386
+.debug_str      0x00000000     0x13fe
  .debug_str     0x00000000      0x2f1 ..\obj\system_stm32f10x.o
                                 0x365 (size before relaxing)
  .debug_str     0x000002f1       0xd7 ..\obj\startup_stm32f10x_md.o
                                 0x1d4 (size before relaxing)
  .debug_str     0x000003c8      0x3ca ..\obj\stm32f10x_gpio.o
                                 0x59f (size before relaxing)
- .debug_str     0x00000792      0x510 ..\obj\main.o
-                                0x821 (size before relaxing)
- .debug_str     0x00000ca2      0x3fd ..\obj\stm32f10x_rcc.o
+ .debug_str     0x00000792      0x588 ..\obj\main.o
+                                0x899 (size before relaxing)
+ .debug_str     0x00000d1a      0x3fd ..\obj\stm32f10x_rcc.o
                                 0x6a0 (size before relaxing)
- .debug_str     0x0000109f      0x2e7 ..\obj\stm32f10x_spi.o
+ .debug_str     0x00001117      0x2e7 ..\obj\stm32f10x_spi.o
                                 0x683 (size before relaxing)
 
 .comment        0x00000000       0x75
@@ -838,10 +838,10 @@ OUTPUT(SoDDRM.elf elf32-littlearm)
  .ARM.attributes
                 0x000000e1       0x2d ..\obj\stm32f10x_spi.o
 
-.debug_frame    0x00000000      0xda4
+.debug_frame    0x00000000      0xda8
  .debug_frame   0x00000000       0x98 ..\obj\system_stm32f10x.o
  .debug_frame   0x00000098       0x4c ..\obj\startup_stm32f10x_md.o
  .debug_frame   0x000000e4      0x2d0 ..\obj\stm32f10x_gpio.o
- .debug_frame   0x000003b4      0x15c ..\obj\main.o
- .debug_frame   0x00000510      0x4f4 ..\obj\stm32f10x_rcc.o
- .debug_frame   0x00000a04      0x3a0 ..\obj\stm32f10x_spi.o
+ .debug_frame   0x000003b4      0x160 ..\obj\main.o
+ .debug_frame   0x00000514      0x4f4 ..\obj\stm32f10x_rcc.o
+ .debug_frame   0x00000a08      0x3a0 ..\obj\stm32f10x_spi.o

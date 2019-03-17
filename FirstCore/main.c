@@ -100,7 +100,7 @@ void SPI1_Write(uint16_t data) {
 }
 
 uint16_t SPI1_Read(void) {
-	SPI1->DR = 0; //запускаем обмен
+	SPI1->DR = (uint16_t)5; //запускаем обмен
 
 	//Ждем, пока не появится новое значение
 	//в буфере приемника
@@ -141,6 +141,10 @@ int main(void) {
 		if (recivedData == 6) {
 			lcd_Goto(2, 0);
 			lcd_PrintC("GOOD ");
+			delay(10000000);
+		} else {
+
+			itoa(recivedData);
 			delay(10000000);
 		}
 	}
@@ -206,6 +210,7 @@ void gpioInit(void) {
 	port.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
 	port.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &port);
+
 	SPI_Cmd(SPI1, ENABLE);
 	I2C_Cmd(I2C1, ENABLE);
 	SPI_NSSInternalSoftwareConfig(SPI1, SPI_NSSInternalSoft_Set);

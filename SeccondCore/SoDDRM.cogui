@@ -23,7 +23,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/SeccondCore/main.c" title="main.c" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/SeccondCore/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2008" selectionTopPixel="882"/>
+<editorState selectionHorizontalPixel="0" selectionLength="4" selectionOffset="2375" selectionTopPixel="1428"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f10x.h" partName="stm32f10x.h" path="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/SeccondCore/cmsis_boot/stm32f10x.h" title="stm32f10x.h" tooltip="C:/Users/Vadim/Documents/GitHub/RobotFirmvare/SeccondCore/cmsis_boot/stm32f10x.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SoDDRM/cmsis_boot/stm32f10x.h"/>
@@ -163,12 +163,6 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/SoDDRM/cmsis_boot/stm32f10x.h"/>
 </editors>
 <item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="104" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
 <position info="not_deleted" x="1307" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
@@ -305,8 +299,14 @@
 <item historyLabel="main.c" index="7">
 <position info="not_deleted" x="2859" y="35"/>
 </item>
-<item active="true" historyLabel="main.c" index="7">
+<item historyLabel="main.c" index="7">
 <position info="not_deleted" x="2943" y="0"/>
+</item>
+<item historyLabel="main.c" index="7">
+<position info="not_deleted" x="2902" y="0"/>
+</item>
+<item active="true" historyLabel="main.c" index="7">
+<position info="not_deleted" x="928" y="167"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
