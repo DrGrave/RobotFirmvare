@@ -20,7 +20,7 @@ SPI_InitTypeDef spi;
 GPIO_InitTypeDef port;
 uint8_t data;
 uint8_t needUpdate;
-uint8_t bool;
+uint8_t bool = 0;
 const uint8_t mass[] = "0123456789";
 uint8_t dataMass[1];
 
@@ -37,57 +37,78 @@ void disableIRQSPI(void) {
 }
 
 void itoa(int n) {
-	switch (n){
-		case 1:
-			lcd_Goto(1, 0);
-			lcd_PrintC("1");
-			break;
-		case 2:
+	switch (n) {
+	case 1:
+		lcd_Goto(1, 0);
+		lcd_PrintC("1");
+		break;
+	case 2:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("2");
-			break;
-		case 3:
+		lcd_Goto(1, 0);
+		lcd_PrintC("2");
+		break;
+	case 3:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("3");
-			break;
-		case 4:
+		lcd_Goto(1, 0);
+		lcd_PrintC("3");
+		break;
+	case 4:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("4");
-			break;
-		case 5:
+		lcd_Goto(1, 0);
+		lcd_PrintC("4");
+		break;
+	case 5:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("5");
-			break;
-		case 6:
+		lcd_Goto(1, 0);
+		lcd_PrintC("5");
+		break;
+	case 6:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("6");
-			break;
-		case 7:
+		lcd_Goto(1, 0);
+		lcd_PrintC("6");
+		break;
+	case 7:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("7");
-			break;
-		case 8:
+		lcd_Goto(1, 0);
+		lcd_PrintC("7");
+		break;
+	case 8:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("8");
-			break;
-		case 9:
+		lcd_Goto(1, 0);
+		lcd_PrintC("8");
+		break;
+	case 9:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("9");
-			break;
-		case 0:
+		lcd_Goto(1, 0);
+		lcd_PrintC("9");
+		break;
+	case 0:
 
-			lcd_Goto(1, 0);
-			lcd_PrintC("0");
-			break;
+		lcd_Goto(1, 0);
+		lcd_PrintC("0");
+		break;
 	}
+}
+
+void SPI1_Write(uint16_t data) {
+	//Ждем, пока не освободится буфер передатчика
+	while (!(SPI1->SR & SPI_SR_TXE))
+		;
+
+	//заполняем буфер передатчика
+	SPI1->DR = data;
+}
+
+uint16_t SPI1_Read(void) {
+	SPI1->DR = 0; //запускаем обмен
+
+	//Ждем, пока не появится новое значение
+	//в буфере приемника
+	while (!(SPI1->SR & SPI_SR_RXNE))
+		;
+
+	//возвращаем значение буфера приемника
+	return SPI1->DR;
 }
 
 int main(void) {
@@ -96,46 +117,34 @@ int main(void) {
 	i2cInit();
 	lcd_Init();
 	uint8_t dataMass[1] = { 0x3 };
-	bool = 1;
-	enableIRQSPI();
-
+	bool = 0;
+	uint16_t recivedData = 0;
 	lcd_Goto(2, 0);
 	lcd_PrintC("Starting ");
 	delay(10000000);
 
-	uint16_t data = 0;
-
+	uint16_t data = 10;
+	int i;
 	while (1) {
 		clearLCD();
-		disableIRQSPI();
-		uint16_t sentData = 3;
 		GPIO_ResetBits(GPIOA, GPIO_Pin_4);
-		SPI_I2S_SendData(SPI1, sentData);
+		if (bool == 0){
+			SPI1_Write(data);
+			bool = 1;
+		}
 		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET)
 			;
 
-		GPIO_SetBits(GPIOA, GPIO_Pin_4);
-//			enableIRQSPI();
 		clearLCD();
-		if (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == SET) {
 
-			if (5 == SPI_I2S_ReceiveData(SPI1)) {
-				clearLCD();
-				lcd_Goto(2, 0);
-				lcd_PrintC("get data good");
-				delay(10000000);
-			} else {
-				clearLCD();
-				lcd_Goto(1, 0);
-				itoa(SPI_I2S_ReceiveData(SPI1));
-				delay(100000);
-
-			}
-
+		recivedData = SPI1_Read();
+		if (recivedData == 6) {
+			lcd_Goto(2, 0);
+			lcd_PrintC("GOOD ");
+			delay(10000000);
 		}
-		delay(100000);
-
 	}
+
 }
 
 void clearLCD() {
@@ -207,9 +216,7 @@ void gpioInit(void) {
 
 void i2cInit(void) {
 	I2C_InitTypeDef i2c;
-
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
-
 	i2c.I2C_ClockSpeed = 50000;
 	i2c.I2C_Mode = I2C_Mode_I2C;
 	i2c.I2C_DutyCycle = I2C_DutyCycle_2;
@@ -218,16 +225,4 @@ void i2cInit(void) {
 	i2c.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 	I2C_Init(I2C1, &i2c);
 	I2C_Cmd(I2C1, ENABLE);
-}
-
-void SPI1_IRQHandler() {
-
-	data = SPI_I2S_ReceiveData(SPI1);
-	if (data == 0x3) {
-		lcd_Goto(2, 0);
-		lcd_PrintC("GOOD" + (data + 32));
-		delay(10000000);
-	}
-	lcd_Goto(2, 0);
-	lcd_PrintC("IRQ start");
 }

@@ -8,27 +8,28 @@
 GPIO_InitTypeDef port;
 SPI_InitTypeDef spi;
 uint8_t data;
-uint8_t bool;
-uint8_t needUpdate;
+uint16_t getedData;
+uint8_t indexData = 0;
+uint8_t boolFirstBit;
 
-void enableIRQSPI(void){
+void enableIRQSPI(void) {
 	__enable_irq();
 	NVIC_EnableIRQ(SPI2_IRQn);
 	SPI_I2S_ITConfig(SPI2, SPI_I2S_IT_RXNE, ENABLE);
 }
 
-void disableIRQSPI(){
+void disableIRQSPI() {
 	__disable_irq();
 	NVIC_DisableIRQ(SPI2_IRQn);
 	SPI_I2S_ITConfig(SPI2, SPI_I2S_IT_RXNE, DISABLE);
 }
 
-void sendData(uint8_t mass[]){
+void sendData(uint8_t mass[]) {
 	int i;
-	for (i = 0; i < 1; i++){
+	for (i = 0; i < 1; i++) {
 		SPI_I2S_SendData(SPI2, 0x93);
-				while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET)
-								;
+		while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET)
+			;
 	}
 }
 
@@ -51,7 +52,7 @@ void initAll() {
 	spi.SPI_CRCPolynomial = 7;
 	SPI_Init(SPI2, &spi);
 
-	port.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_14 ;
+	port.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_14;
 	port.GPIO_Speed = GPIO_Speed_50MHz;
 	port.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_Init(GPIOB, &port);
@@ -75,24 +76,40 @@ int main() {
 
 	SPI_Cmd(SPI2, ENABLE);
 	enableIRQSPI();
-	bool = 0;
 	//Тут мы разрешаем прерывание по приему
 	//Ну вот приняли, теперь просто зажигаем диоды
 	GPIO_ResetBits(GPIOC, GPIO_Pin_13);
-	int i;
-
 	while (1) {
+	}
+}
+
+void SPI2_Write(uint16_t data) {
+	//Ждем, пока не освободится буфер передатчика
+	while (!(SPI2->SR & SPI_SR_TXE))
+		;
+
+	//заполняем буфер передатчика
+	SPI2->DR = data;
+}
+
+uint16_t SPI2_Read(void) {
+	if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) == SET) {
+		//Ждем, пока не появится новое значение
+		//в буфере приемника
+		while (!(SPI2->SR & SPI_SR_RXNE))
+			;
+		//возвращаем значение буфера приемника
+		return SPI2->DR;
 	}
 }
 
 /*******************************************************************/
 void SPI2_IRQHandler() {
-	if (SPI_I2S_GetFlagStatus(SPI2,SPI_I2S_FLAG_RXNE)==SET) {
-		uint16_t data = SPI2->DR;
-		if (data == 3){
-			GPIOC->ODR ^= GPIO_Pin_13;
-			SPI2->DR = 5;
-		}
+	getedData = SPI2_Read();
+	if (getedData == 10) {
+		GPIOC->ODR ^= GPIO_Pin_13;
+		//заполняем буфер передатчика
+		SPI2_Write(6);
 	}
 }
 
